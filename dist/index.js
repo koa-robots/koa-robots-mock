@@ -43,7 +43,7 @@ exports.default = function () {
 
         try {
             if ((yield _coFs2.default.stat(path)).isFile()) {
-                this.body = yield _interopRequireDefault(require(path)).default(_mockjs2.default);
+                this.body = _mockjs2.default.mock((yield _interopRequireDefault(require(path)).default));
             }
         } catch (err) {
             if (~['ENOENT', 'ENAMETOOLONG', 'ENOTDIR'].indexOf(err.code)) {

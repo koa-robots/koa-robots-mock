@@ -40,7 +40,7 @@ export default function(root = '.', options = {}){
 
         try{
             if((yield fs.stat(path)).isFile()){
-                this.body = yield _interopRequireDefault(require(path)).default(Mock)
+                this.body = Mock.mock(yield _interopRequireDefault(require(path)).default)
             }
         }catch(err){
             if (~['ENOENT', 'ENAMETOOLONG', 'ENOTDIR'].indexOf(err.code)){
