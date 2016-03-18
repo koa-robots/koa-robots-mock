@@ -9,7 +9,7 @@ describe('mock', () => {
 
         app.use(mock('test/mock'))
 
-        fs.writeFile('test/mock/index.js', 'export default {"a":"b"}', function(err){
+        fs.writeFile('test/mock/index.js', 'export default function(Mock){return {"a":"b"}}', function(err){
             request(app.listen())
                 .get('/')
                 .expect('{"a":"b"}', done)
@@ -35,7 +35,7 @@ describe('mock', () => {
             ]
         }))
 
-        fs.writeFile('test/mock/test.js', 'export default {"hello":"world"}', function(err){
+        fs.writeFile('test/mock/test.js', 'export default function(Mock){return {"hello":"world"}}', function(err){
             request(app.listen())
                 .get('/hello/world')
                 .expect('{"hello":"world"}', done)
@@ -54,5 +54,17 @@ describe('mock', () => {
         request(app.listen())
             .get('/test2')
             .expect(404, done)
+    })
+
+    it('mock data', (done) => {
+        var app = koa()
+
+        app.use(mock('test/mock'))
+
+        fs.writeFile('test/mock/data.js', 'export default function(Mock){return Mock.mock({"string1|10":"★"})}', function(err){
+            request(app.listen())
+                .get('/data')
+                .expect('{"string1":"★★★★★★★★★★"}', done)
+        })
     })
 })

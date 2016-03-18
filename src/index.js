@@ -1,4 +1,5 @@
 import fs from 'co-fs'
+import Mock from 'mockjs'
 import mkdirp from 'mkdirp'
 import pathToRegexp from 'path-to-regexp'
 import {join, normalize, resolve} from 'path'
@@ -19,15 +20,6 @@ export default function(root = '.', options = {}){
     mkdirp.sync(root)
 
     return function *(next){
-        if(this.path === '/mock'){
-            this.body = yield fs.readFile(join(__dirname, 'mock.html'))
-            return
-        }
-
-        if(this.path === '/mock-data'){
-            return
-        }
-
         yield next
 
         for(let route of options.routes){
@@ -48,7 +40,7 @@ export default function(root = '.', options = {}){
 
         try{
             if((yield fs.stat(path)).isFile()){
-                this.body = yield _interopRequireDefault(require(path)).default
+                this.body = yield _interopRequireDefault(require(path)).default(Mock)
             }
         }catch(err){
             if (~['ENOENT', 'ENAMETOOLONG', 'ENOTDIR'].indexOf(err.code)){

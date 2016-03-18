@@ -23,15 +23,6 @@ exports.default = function () {
     _mkdirp2.default.sync(root);
 
     return function* (next) {
-        if (this.path === '/mock') {
-            this.body = yield _coFs2.default.readFile((0, _path.join)(__dirname, 'mock.html'));
-            return;
-        }
-
-        if (this.path === '/mock-data') {
-            return;
-        }
-
         yield next;
 
         for (let route of options.routes) {
@@ -52,7 +43,7 @@ exports.default = function () {
 
         try {
             if ((yield _coFs2.default.stat(path)).isFile()) {
-                this.body = yield _interopRequireDefault(require(path)).default;
+                this.body = yield _interopRequireDefault(require(path)).default(_mockjs2.default);
             }
         } catch (err) {
             if (~['ENOENT', 'ENAMETOOLONG', 'ENOTDIR'].indexOf(err.code)) {
@@ -65,6 +56,10 @@ exports.default = function () {
 var _coFs = require('co-fs');
 
 var _coFs2 = _interopRequireDefault2(_coFs);
+
+var _mockjs = require('mockjs');
+
+var _mockjs2 = _interopRequireDefault2(_mockjs);
 
 var _mkdirp = require('mkdirp');
 

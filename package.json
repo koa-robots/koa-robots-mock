@@ -1,6 +1,6 @@
 {
   "name": "koa-robots-mock",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "mock data",
   "author": "寒飞紫",
   "license": "MIT",
@@ -11,6 +11,7 @@
   "dependencies": {
     "co-fs": "^1.2.0",
     "mkdirp": "^0.5.1",
+    "mockjs": "^1.0.1-beta2",
     "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {
@@ -33,7 +34,7 @@
     ]
   },
   "scripts": {
-    "compile": "node_modules/.bin/babel src -d dist && cp src/mock.html dist/mock.html",
+    "compile": "node_modules/.bin/babel src -d dist",
     "prepublish": "npm run compile",
     "test": "npm run compile && node_modules/.bin/mocha --reporter spec --compilers js:babel-core/register"
   },
