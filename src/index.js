@@ -22,6 +22,10 @@ export default function(root = '.', options = {}){
     return function *(next){
         yield next
 
+        if(this.body){
+            return
+        }
+
         for(let route of options.routes){
             let matched
 
