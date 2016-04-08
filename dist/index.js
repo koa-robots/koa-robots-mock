@@ -9,16 +9,10 @@ exports.default = function () {
     let options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
     root = (0, _path.normalize)((0, _path.resolve)(root));
-    options.routes = clone(options.routes || []);
 
     options = Object.assign({
-        routes: null,
         index: '/index'
     }, options);
-
-    for (let route of options.routes) {
-        route.url = (0, _pathToRegexp2.default)(route.url);
-    }
 
     _mkdirp2.default.sync(root);
 
@@ -27,20 +21,6 @@ exports.default = function () {
 
         if (this.body) {
             return;
-        }
-
-        for (let route of options.routes) {
-            let matched;
-
-            if (this.path === '/') {
-                break;
-            }
-
-            if (!(matched = route.url.exec(this.path))) {
-                continue;
-            }
-
-            this.path = route.controller;
         }
 
         let path = (0, _path.join)(root, (this.path === '/' ? options.index : this.path) + '.js');

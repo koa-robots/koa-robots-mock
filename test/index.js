@@ -26,36 +26,6 @@ describe('mock', () => {
             .expect(404, done)
     })
 
-    it('special url', (done) => {
-        var app = koa()
-
-        app.use(mock('test/mock', {
-            routes : [
-                {url : '/:category/:title', controller : '/test'}
-            ]
-        }))
-
-        fs.writeFile('test/mock/test.js', 'export default {"hello":"world"}', function(err){
-            request(app.listen())
-                .get('/hello/world')
-                .expect('{"hello":"world"}', done)
-        })
-    })
-
-    it('special url not found', (done) => {
-        var app = koa()
-
-        app.use(mock('test/mock', {
-            routes : [
-                {url : '/:category/:title', controller : '/test2'}
-            ]
-        }))
-
-        request(app.listen())
-            .get('/test2')
-            .expect(404, done)
-    })
-
     it('mock data', (done) => {
         var app = koa()
 

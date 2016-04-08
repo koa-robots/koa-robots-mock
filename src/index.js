@@ -6,16 +6,10 @@ import {join, normalize, resolve} from 'path'
 
 export default function(root = '.', options = {}){
     root = normalize(resolve(root))
-    options.routes = clone(options.routes || [])
 
     options = Object.assign({
-        routes : null,
         index : '/index'
     }, options)
-
-    for(let route of options.routes){
-        route.url = pathToRegexp(route.url)
-    }
 
     mkdirp.sync(root)
 
@@ -24,20 +18,6 @@ export default function(root = '.', options = {}){
 
         if(this.body){
             return
-        }
-
-        for(let route of options.routes){
-            let matched
-
-            if(this.path === '/'){
-                break
-            }
-
-            if(!(matched = route.url.exec(this.path))){
-                continue
-            }
-
-            this.path = route.controller
         }
 
         let path = join(root, (this.path === '/' ? options.index : this.path) + '.js')
